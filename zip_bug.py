@@ -7,8 +7,18 @@ if TYPE_CHECKING:
 
 # Second problem: mypy cannot infer the type of the zipped list
 zipped = zip(*tuple_list)  # problem is here, mypy cannot understand the type after zipping, maybe it has a problem with generics?
+# actually the problem is that the length of the list is unknown, so it triggers zip's final overload which just assumes Any
+zipped2 = list(zip(tuple_list[0], tuple_list[1]))
+tuple1, tuple2 = tuple_list
+# there is an additional problem: it can't understand tuples of mixed types
+# zip is interpreting args (tuple[int, str], tuple[int, str]) as (Iterable[int | str], Iterable[int | str])
+zipped3 = list(zip(tuple1, tuple2)) 
 if TYPE_CHECKING:
     reveal_type(zipped)
+    reveal_type(zipped2)
+    reveal_type(tuple1)
+    reveal_type(zipped3)
+    a, b = zipped3
 zipped_list = list(zipped)
 if TYPE_CHECKING:
     reveal_type(zipped_list)
