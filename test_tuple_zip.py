@@ -80,3 +80,29 @@ random_list = st.lists(random_types_recursive)
 )
 def test_normal_zip_six_elem(lists: tuple[list[Any], ...]) -> None:
     assert zip_(lists) == tuple(zip(lists))
+
+
+def test_type_tuple_zip() -> None:
+    """Test that mypy infers the type correctly, it should raise a type error if return type of zip_ doesn't match the declared type"""
+    tuple1 = (1, "a")
+    tuple2 = (2, "b")
+    result: tuple[tuple[int, ...], tuple[str, ...]]
+    result = zip_(tuple1, tuple2)
+
+    assert isinstance(result, tuple)
+    output1, output2 = result
+    assert isinstance(output1, tuple) and all(isinstance(o, int) for o in output1)
+    assert isinstance(output2, tuple) and all(isinstance(o, str) for o in output2)
+
+
+def test_type_normal_zip() -> None:
+    """Test that mypy infers the type correctly, it should raise a type error if return type of zip_ doesn't match the declared type"""
+    list1 = [1, 2, 3]
+    list2 = ["a", "b", "c"]
+    result: tuple[tuple[int, str], ...]
+    result = zip_(list1, list2)
+
+    assert isinstance(result, tuple)
+    assert all(
+        isinstance(elem1, int) and isinstance(elem2, str) for elem1, elem2 in result
+    )
