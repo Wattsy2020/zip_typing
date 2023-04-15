@@ -48,9 +48,5 @@ def zip_(*tuples: tuple) -> tuple[tuple, ...]:
 
 
 def zip_(*tuples: tuple) -> tuple[tuple, ...]:
-    num_elems = len(tuples[0])
-    outputs: tuple[list, ...] = tuple(list() for _ in range(num_elems))
-    for elems in tuples:
-        for i, elem in enumerate(elems):
-            outputs[i].append(elem)
-    return tuple(tuple(output) for output in outputs)
+    """Zips any number of tuples together, with more accurate type info than stdlib's zip"""
+    return tuple(tuple(elems[i] for elems in tuples) for i in range(len(tuples[0])))
