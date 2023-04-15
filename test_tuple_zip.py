@@ -63,3 +63,20 @@ def test_tuple_six_elem(tuple_: tuple[Any, Any, Any, Any, Any, Any]) -> None:
         (tuple_[5], tuple_[5]),
     )
     assert zipped == tuple(zip(tuple_, tuple_))
+
+
+@given(st.lists(random_types_recursive))
+def test_normal_zip_one_elem(list_: list[Any]) -> None:
+    assert zip_(list_) == tuple(zip(list_))
+
+
+random_list = st.lists(random_types_recursive)
+
+
+@given(
+    st.tuples(
+        random_list, random_list, random_list, random_list, random_list, random_list
+    )
+)
+def test_normal_zip_six_elem(lists: tuple[list[Any], ...]) -> None:
+    assert zip_(lists) == tuple(zip(lists))
