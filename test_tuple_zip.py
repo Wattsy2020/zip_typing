@@ -1,5 +1,6 @@
 from tuple_zip import zip_
 
+
 def test_two_tuples() -> None:
     tuple1 = (1, "a")
     tuple2 = (2, "b")

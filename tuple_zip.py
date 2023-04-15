@@ -4,7 +4,8 @@ from typing import TypeVar
 _T1 = TypeVar("_T1")
 _T2 = TypeVar("_T2")
 
-# To solve this we need to write the generics differently 
+
+# To solve this we need to write the generics differently
 def zip_(*iterables: tuple[_T1, _T2]) -> tuple[tuple[_T1, ...], tuple[_T2, ...]]:
     tuples = list(iterables)
     list1: list[_T1] = []
