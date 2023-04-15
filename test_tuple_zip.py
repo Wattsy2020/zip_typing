@@ -1,62 +1,65 @@
+from typing import Any
+
+from hypothesis import given
+from hypothesis import strategies as st
+
 from tuple_zip import zip_
 
-
-def test_tuple_one_elem() -> None:
-    tuple1 = (1,)
-    tuple2 = (2,)
-    zipped = zip_(tuple1, tuple2)
-    assert zipped == ((1, 2),)
-    assert zipped == tuple(zip(tuple1, tuple2))
-
-
-def test_tuple_two_elem() -> None:
-    tuple1 = (1, "a")
-    tuple2 = (2, "b")
-    zipped = zip_(tuple1, tuple2)
-    assert zipped == ((1, 2), ("a", "b"))
-    assert zipped == tuple(zip(tuple1, tuple2))
+random_types = st.one_of(st.integers(), st.text(), st.floats())
+random_types_recursive = st.one_of(
+    random_types,
+    st.lists(random_types),
+    st.tuples(random_types),
+    st.sets(random_types),
+    st.dictionaries(random_types, random_types),
+)
 
 
-def test_tuple_three_elem() -> None:
-    tuple1 = (1, "a", 1.1)
-    tuple2 = (2, "b", 2.1)
-    zipped = zip_(tuple1, tuple2)
-    assert zipped == ((1, 2), ("a", "b"), (1.1, 2.1))
-    assert zipped == tuple(zip(tuple1, tuple2))
+@given(st.tuples(random_types_recursive))
+def test_tuple_one_elem(tuple_: tuple[Any]) -> None:
+    zipped = zip_(tuple_, tuple_)
+    assert zipped == ((tuple_[0], tuple_[0]),)
+    assert zipped == tuple(zip(tuple_, tuple_))
 
 
-def test_tuple_four_elem() -> None:
-    tuple1 = (1, "a", 1.1, None)
-    tuple2 = (2, "b", 2.1, None)
-    zipped = zip_(tuple1, tuple2)
-    assert zipped == ((1, 2), ("a", "b"), (1.1, 2.1), (None, None))
-    assert zipped == tuple(zip(tuple1, tuple2))
+@given(st.tuples(random_types_recursive, random_types_recursive))
+def test_tuple_two_elem(tuple_: tuple[Any, Any]) -> None:
+    zipped = zip_(tuple_, tuple_)
+    assert zipped == ((tuple_[0], tuple_[0]), (tuple_[1], tuple_[1]))
+    assert zipped == tuple(zip(tuple_, tuple_))
 
 
-def test_tuple_five_elem() -> None:
-    tuple1 = (1, "a", 1.1, None, [11, 12])
-    tuple2 = (2, "b", 2.1, None, [21, 22])
-    zipped = zip_(tuple1, tuple2)
+@given(
+    st.tuples(random_types_recursive, random_types_recursive, random_types_recursive)
+)
+def test_tuple_three_elem(tuple_: tuple[Any, Any, Any]) -> None:
+    zipped = zip_(tuple_, tuple_)
     assert zipped == (
-        (1, 2),
-        ("a", "b"),
-        (1.1, 2.1),
-        (None, None),
-        ([11, 12], [21, 22]),
+        (tuple_[0], tuple_[0]),
+        (tuple_[1], tuple_[1]),
+        (tuple_[2], tuple_[2]),
     )
-    assert zipped == tuple(zip(tuple1, tuple2))
+    assert zipped == tuple(zip(tuple_, tuple_))
 
 
-def test_tuple_six_elem() -> None:
-    tuple1 = (1, "a", 1.1, None, [11, 12], [1.1, 1.2])
-    tuple2 = (2, "b", 2.1, None, [21, 22], [2.1, 2.2])
-    zipped = zip_(tuple1, tuple2)
+@given(
+    st.tuples(
+        random_types_recursive,
+        random_types_recursive,
+        random_types_recursive,
+        random_types_recursive,
+        random_types_recursive,
+        random_types_recursive,
+    )
+)
+def test_tuple_six_elem(tuple_: tuple[Any, Any, Any, Any, Any, Any]) -> None:
+    zipped = zip_(tuple_, tuple_)
     assert zipped == (
-        (1, 2),
-        ("a", "b"),
-        (1.1, 2.1),
-        (None, None),
-        ([11, 12], [21, 22]),
-        ([1.1, 1.2], [2.1, 2.2]),
+        (tuple_[0], tuple_[0]),
+        (tuple_[1], tuple_[1]),
+        (tuple_[2], tuple_[2]),
+        (tuple_[3], tuple_[3]),
+        (tuple_[4], tuple_[4]),
+        (tuple_[5], tuple_[5]),
     )
-    assert zipped == tuple(zip(tuple1, tuple2))
+    assert zipped == tuple(zip(tuple_, tuple_))
