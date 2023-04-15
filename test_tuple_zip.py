@@ -45,3 +45,18 @@ def test_tuple_five_elem() -> None:
         ([11, 12], [21, 22]),
     )
     assert zipped == tuple(zip(tuple1, tuple2))
+
+
+def test_tuple_six_elem() -> None:
+    tuple1 = (1, "a", 1.1, None, [11, 12], [1.1, 1.2])
+    tuple2 = (2, "b", 2.1, None, [21, 22], [2.1, 2.2])
+    zipped = zip_(tuple1, tuple2)
+    assert zipped == (
+        (1, 2),
+        ("a", "b"),
+        (1.1, 2.1),
+        (None, None),
+        ([11, 12], [21, 22]),
+        ([1.1, 1.2], [2.1, 2.2]),
+    )
+    assert zipped == tuple(zip(tuple1, tuple2))

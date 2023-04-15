@@ -41,6 +41,12 @@ def zip_(
     ...
 
 
+# Any more than 5 elements and we just leave the return type as Any
+@overload
+def zip_(*tuples: tuple) -> tuple[tuple, ...]:
+    ...
+
+
 def zip_(*tuples: tuple) -> tuple[tuple, ...]:
     num_elems = len(tuples[0])
     outputs: tuple[list, ...] = tuple(list() for _ in range(num_elems))
