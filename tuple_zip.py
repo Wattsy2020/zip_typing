@@ -3,6 +3,9 @@ from typing import TypeVar, overload
 
 _T1 = TypeVar("_T1")
 _T2 = TypeVar("_T2")
+_T3 = TypeVar("_T3")
+_T4 = TypeVar("_T4")
+_T5 = TypeVar("_T5")
 
 
 @overload
@@ -12,6 +15,29 @@ def zip_(*tuples: tuple[_T1]) -> tuple[tuple[_T1, ...]]:
 
 @overload
 def zip_(*tuples: tuple[_T1, _T2]) -> tuple[tuple[_T1, ...], tuple[_T2, ...]]:
+    ...
+
+
+@overload
+def zip_(
+    *tuples: tuple[_T1, _T2, _T3]
+) -> tuple[tuple[_T1, ...], tuple[_T2, ...], tuple[_T3, ...]]:
+    ...
+
+
+@overload
+def zip_(
+    *tuples: tuple[_T1, _T2, _T3, _T4]
+) -> tuple[tuple[_T1, ...], tuple[_T2, ...], tuple[_T3, ...], tuple[_T4, ...]]:
+    ...
+
+
+@overload
+def zip_(
+    *tuples: tuple[_T1, _T2, _T3, _T4, _T5]
+) -> tuple[
+    tuple[_T1, ...], tuple[_T2, ...], tuple[_T3, ...], tuple[_T4, ...], tuple[_T5, ...]
+]:
     ...
 
 
