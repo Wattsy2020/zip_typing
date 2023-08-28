@@ -1,4 +1,4 @@
-"""Implements a Zip that types the Iterable[tuple[_t1, _t2, _t3]] -> tuple[list[_t1], list[_t2], list[_t3]] case correctly"""
+"""Implements a Zip that types the Iterable[tuple[_t1, _t2, _t3]] -> tuple[tuple[_t1], tuple[_t2], tuple[_t3]] case correctly"""
 from typing import TYPE_CHECKING, Any, Iterable, TypeVar, overload
 
 _T1 = TypeVar("_T1")
